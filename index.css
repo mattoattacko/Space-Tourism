@@ -1,3 +1,7 @@
+/* ------------------- */
+/* Custom properties   */
+/* ------------------- */
+
 :root {
   /* colors */
   --clr-dark: 230 35% 7%;
@@ -69,7 +73,7 @@ body {
 
 /* make images easier to work with */
 img,
-picutre {
+picture {
   max-width: 100%;
   display: block;
 }
@@ -84,14 +88,14 @@ select {
 
 /* remove animations for people who've turned them off */
 @media (prefers-reduced-motion: reduce) {  
-*,
-*::before,
-*::after {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
-  scroll-behavior: auto !important;
-}
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 
@@ -111,6 +115,16 @@ select {
   gap: var(--gap, 1rem);
 }
 
+/* '* + *' is the lobotomized owl */
+/* The '+' is an adjacent sibling combinator. So it looks for elements that have adjacent siblings that come before it. */
+/* .flow > * + * {
+  margin-top: 1rem;
+} */
+
+/* Easier to Read Version of Lobotomized Owl. Does the same as above */
+.flow > *:where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1rem);
+}
 .container {
   padding-inline: 2em;
   margin-inline: auto;
@@ -118,15 +132,15 @@ select {
 }
 
 .sr-only {
-position: absolute; 
-width: 1px;
-height: 1px;
-padding: 0;
-margin: -1px; 
-overflow: hidden;
-clip: rect(0, 0, 0, 0);
-white-space: nowrap; /* added line */
-border: 0;
+  position: absolute; 
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px; 
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap; /* added line */
+  border: 0;
 }
 
 /* colors */
@@ -165,4 +179,117 @@ border: 0;
 .fs-700,
 .fs-600 {
   line-height: 1.1;
+}
+
+.numbered-title {
+  font-family: var(--ff-sans-cond);
+  font-size: var(--fs-500);
+  text-transform: uppercase;
+  letter-spacing: 4.72px; 
+}
+
+.numbered-title span {
+  margin-right: .5em;
+  font-weight: 700;
+  color: hsl( var(--clr-white) / .25);
+}
+
+
+/* ------------------- */
+/* Components         */
+/* ------------------- */
+
+.large-button {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 0 2em;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  text-decoration: none;
+}
+
+.large-button::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background: hsl( var(--clr-white) / .1);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 500ms linear, transform 750ms ease-in-out;
+}
+
+.large-button:hover::after,
+.large-button:focus::after {
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+.primary-navigation {
+  --gap: 8rem;
+  --underline-gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.primary-navigation a {
+  text-decoration: none;
+}
+
+/* '>' selects direct descendants of the element */
+.primary-navigation a > span {
+  font-weight: 700;
+  margin-right: .5em;
+}
+
+/* ------------------------------- */
+/* Underlines Interactive Elements */
+/* ------------------------------- */
+/* so this selects every direct descendant of underline-indicators */
+.underline-indicators > * {
+  cursor: pointer;
+  padding: var(--underline-gap, 1rem) 0; /* since this is an undefined local custom property, we add '1rem' as a default value */
+  border: 0;  /* we set the border to '0' just in case an element has a previous border that we need to override */
+  border-bottom: .2rem solid hsl( var(--clr-white) / 0 );
+}
+
+.underline-indicators > *:hover,
+.underline-indicators > *:focus {
+  border-color: hsl( var(--clr-white) / .5);
+}
+
+/* The '[aria-selected]' attribute is used in accessibility. It lets people know that this is the selected tab. It's used mostly for tab lists */
+/* aria = accessible rich internet applications */
+.underline-indicators > .active,
+.underline-indicators > [aria-selected="true"] {
+  color: hsl( var(--clr-white) / 1);
+  border-color: hsl( var(--clr-white) / 1); 
+}
+
+.tab-list {
+  --gap: 2rem;
+}
+
+/* ------------------------------- */
+/* Dot Indicators                  */
+/* ------------------------------- */
+.dot-indicators > * {
+  cursor: pointer;
+  border: 0; /* we set the border to '0' just in case an element has a previous border that we need to override */
+  border-radius: 50%;
+  padding: .5em;
+  background-color: hsl( var(--clr-white) / .25);
+}
+
+.dot-indicators > *:hover,
+.dot-indicators > *:focus { 
+  background-color: hsl( var(--clr-white) / .5);
+}
+
+.dot-indicators > [aria-selected="true"] {
+  background-color: hsl( var(--clr-white) / 1); 
 }
