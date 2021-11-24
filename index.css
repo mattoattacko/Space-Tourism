@@ -8,8 +8,13 @@
   --clr-light: 231 77% 90%;
   --clr-white: 0 0% 100%;
   
+
   /* font-sizes */
-  --fs-900: 9.375rem;
+  /* clamp allows us to set a min, medium, max sizes. We use here because of how Safari's zoom can lock and break things.
+  '8vw + 1rem' is viewport units
+  */
+
+  --fs-900: clamp(5rem, 8vw + 1rem, 9.375rem);
   --fs-800: 6.25rem;
   --fs-700: 3.5rem;
   --fs-600: 2rem;
@@ -24,6 +29,25 @@
   --ff-sans-normal: "Barlow", sans-serif;
 }
 
+@media (min-width: 35em) {
+  :root {
+      --fs-900: 9.375rem;
+      --fs-800: 5rem;
+      --fs-700: 2.5rem;
+      --fs-600: 1.5rem;
+      --fs-400: 1rem;
+  }
+}
+
+@media (min-width: 45em) {
+  :root {
+      /* font-sizes */
+      --fs-800: 6.25rem;
+      --fs-700: 3.5rem;
+      --fs-600: 2rem;
+      --fs-400: 1.125rem;
+  }
+}
 
 /* ------------------- */
 /* Reset               */
@@ -69,6 +93,10 @@ body {
   background-color: hsl( var(--clr-dark) );
   line-height: 1.5;
   min-height: 100vh;
+
+  /* we add 'grid' to allow all the items that are in here to stretch out to fill the page */
+  display: grid;
+  grid-template-rows: min-content 1fr; /* This removes the space from under the nav bar */
 }
 
 /* make images easier to work with */
@@ -103,7 +131,7 @@ select {
 /* Utility classes     */
 /* ------------------- */
 
-/* general */
+/* General */
 
 .flex {
   display: flex;
@@ -125,10 +153,28 @@ select {
 .flow > *:where(:not(:first-child)) {
   margin-top: var(--flow-space, 1rem);
 }
+
 .container {
   padding-inline: 2em;
   margin-inline: auto;
   max-width: 80rem;
+}
+
+.grid-container {
+  display: grid;
+}
+
+@media (min-width: 45rem) {
+  .grid-container {
+    column-gap: var(--container-gap, 2rem);
+    grid-template-columns: minmax(2rem, 1fr) repeat(2, minmax(0, 30rem)) minmax(2rem, 1fr); /* makes us 4 columns total */
+  }
+  .grid-container > *:first-child {
+    grid-column: 2;
+  }
+  .grid-container > *:last-child {
+    grid-column: 3;
+  }
 }
 
 .sr-only {
@@ -202,7 +248,7 @@ select {
 .large-button {
   position: relative;
   z-index: 1;
-  display: grid;
+  display: inline-grid;
   place-items: center;
   padding: 0 2em;
   border-radius: 50%;
