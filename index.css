@@ -293,3 +293,21 @@ select {
 .dot-indicators > [aria-selected="true"] {
   background-color: hsl( var(--clr-white) / 1); 
 }
+/* 
+
+.number-circles {
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 0 2em;
+  border-radius: 50%;
+  
+  text-decoration: none;
+}.number-circles > *:hover,
+.number-circles > *:focus { 
+  background-color: hsl( var(--clr-white) / .5);
+}
+
+.number-circles > [aria-selected="true"] {
+  background-color: hsl( var(--clr-white) / 1); 
+}  */
