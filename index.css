@@ -92,11 +92,11 @@ body {
   background-color: hsl( var(--clr-dark) );
   line-height: 1.5;
   min-height: 100vh;
-  overflow-x: hidden; /* keeps things from overflowing */
-
+  
   /* we add 'grid' to allow all the items that are in here to stretch out to fill the page */
   display: grid;
   grid-template-rows: min-content 1fr; /* This removes the space from under the nav bar */
+  overflow-x: hidden; /* keeps things from overflowing */
 }
 
 /* make images easier to work with */
@@ -171,6 +171,10 @@ select {
   padding-inline: 1rem;
 }
 
+.grid-container * {
+  max-width: 50ch;
+}
+
 @media (min-width: 45rem) {
   .grid-container {
     text-align: left;
@@ -201,7 +205,7 @@ select {
   border: 0;
 }
 
-/* colors */
+/* COLORS */
 
 .bg-dark { background-color: hsl( var(--clr-dark) );}
 .bg-accent { background-color: hsl( var(--clr-light) );}
@@ -211,7 +215,7 @@ select {
 .text-accent { color: hsl( var(--clr-light) );}
 .text-white { color: hsl( var(--clr-white) );}
 
-/* typography */
+/* TYPOGRAPHY */
 
 .ff-serif { font-family: var(--ff-serif); } 
 .ff-sans-cond { font-family: var(--ff-sans-cond); } 
@@ -294,8 +298,8 @@ select {
   list-style: none;
   padding: 0;
   margin: 0;
-  background: hsl( var(--clr-dark) / 0.95);
-  /* backdrop-filter: blur(1.5rem); */
+  background: hsl( var(--clr-white) / 0.05);
+  backdrop-filter: blur(1.5rem);
 }
 
 .mobile-nav-toggle {
@@ -303,12 +307,12 @@ select {
 }
 
 /* this is our frosted glass effect aka 'glassmorphism'. This makes it work on browsers that support it. Currently firefox doesn't support, so we have the fallback background above */
-@supports (backdrop-filter: blur(1rem)) {
+/* @supports (backdrop-filter: blur(1rem)) {
   .primary-navigation {
       background: hsl( var(--clr-white) / 0..05);
       backdrop-filter: blur(1.5rem);
   }
-}
+} */
 
 @media (max-width: 35rem) {
   .primary-navigation {
@@ -321,6 +325,11 @@ select {
     margin: 0;
     flex-direction: column;
     transform: translateX(100%); /* This is how we make the nav vanish offscreen */
+  }
+
+  /* if our nav is hidden, we want to show it */
+  .primary-navigation[data-visible="true"] {
+    transform: translateX(0);
   }
 
   .mobile-nav-toggle {
