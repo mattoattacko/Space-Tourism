@@ -193,6 +193,9 @@ select {
   }
 }
 
+/* ------------------- */
+/* Accessability       */
+/* ------------------- */
 .sr-only {
   position: absolute; 
   width: 1px;
@@ -203,6 +206,21 @@ select {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap; /* added line */
   border: 0;
+}
+
+/* This allows people to use Tab and bring up the 'skip to content' link */
+.skip-to-content {
+  position: absolute;
+  z-index: 9999;
+  background: hsl( var(--clr-white) );
+  color: hsl( var(--clr-dark) );
+  padding: .5em 1em;
+  margin-inline: auto;
+  transform: translateY(-100%);
+  transition: transform 250ms ease-in;
+}
+.skip-to-content:focus {
+  transform: translateY(0);
 }
 
 /* COLORS */
@@ -292,14 +310,35 @@ select {
   transform: scale(1.5);
 }
 
+/* Primary Header */
+.logo {
+  margin: 2rem clamp(1.5rem, 5vw, 3.5rem);
+}
+
+.primary-header {
+  justify-content: space-between;
+  align-items: center;
+}
+
 /* Navigation */
 .primary-navigation {
+  --gap: clamp(1.5rem, 5vw, 3.5rem);
   --underline-gap: 2rem;
   list-style: none;
   padding: 0;
   margin: 0;
   background: hsl( var(--clr-white) / 0.05);
   backdrop-filter: blur(1.5rem);
+}
+
+.primary-navigation a {
+  text-decoration: none;
+}
+
+/* '>' selects direct descendants of the element */
+.primary-navigation a > span {
+  font-weight: 700;
+  margin-right: .5em;
 }
 
 .mobile-nav-toggle {
@@ -331,6 +370,10 @@ select {
   /* if our nav is hidden, we want to show it */
   .primary-navigation[data-visible="true"] {
     transform: translateX(0);
+  }  
+  
+  .primary-navigation.underline-indicators > .active {
+    border: 0;
   }
 
   .mobile-nav-toggle {
@@ -357,21 +400,48 @@ select {
     outline-offset: 5px;
   }
   
-  .primary-navigation.underline-indicators > .active {
-    border: 0;
+}
+
+@media (min-width: 35em) {
+  .primary-navigation {
+      padding-inline: clamp(3rem, 7vw, 7rem);
   }
 }
 
-.primary-navigation a {
-  text-decoration: none;
+@media (min-width: 35em) and (max-width: 44.999em) {
+  .primary-navigation {
+      padding-inline: 3rem;
+  }
+  
+  /* removes our numbers on tablet size screens */
+  .primary-navigation a > span {
+      display: none;
+  }
 }
 
-/* '>' selects direct descendants of the element */
-.primary-navigation a > span {
-  font-weight: 700;
-  margin-right: .5em;
+@media (min-width: 45em) {
+    
+  .primary-header::after {
+    content: '';
+    display: block;
+    position: relative;
+    height: 1px;
+    width: 100%;
+    margin-right: -2.5rem;
+    background: hsl( var(--clr-white) / .25);
+    order: 1;
+  }
+  
+  nav {
+    order: 2;
+  }
+  
+  .primary-navigation {
+    margin-block: 2rem;
+  }
 }
 
+ 
 /* ------------------------------- */
 /* Underlines Interactive Elements */
 /* ------------------------------- */
