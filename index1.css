@@ -8,12 +8,7 @@
   --clr-light: 231 77% 90%;
   --clr-white: 0 0% 100%;
   
-
   /* font-sizes */
-  /* clamp allows us to set a min, medium, max sizes. We use here because of how Safari's zoom can lock and break things.
-  '8vw + 1rem' is viewport units
-  */
-
   --fs-900: clamp(5rem, 8vw + 1rem, 9.375rem);
   --fs-800: 3.5rem;
   --fs-700: 1.5rem;
@@ -49,6 +44,7 @@
       --fs-400: 1.125rem;
   }
 }
+
 
 /* ------------------- */
 /* Reset               */
@@ -95,15 +91,15 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   
-  /* we add 'grid' to allow all the items that are in here to stretch out to fill the page */
   display: grid;
-  grid-template-rows: min-content 1fr; /* This removes the space from under the nav bar */
-  overflow-x: hidden; /* keeps things from overflowing */
+  grid-template-rows: min-content 1fr;
+  
+  overflow-x: hidden;
 }
 
 /* make images easier to work with */
 img,
-picture {
+picutre {
   max-width: 100%;
   display: block;
 }
@@ -118,14 +114,14 @@ select {
 
 /* remove animations for people who've turned them off */
 @media (prefers-reduced-motion: reduce) {  
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+*,
+*::before,
+*::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
 }
 
 
@@ -133,7 +129,7 @@ select {
 /* Utility classes     */
 /* ------------------- */
 
-/* General */
+/* general */
 
 .flex {
   display: flex;
@@ -149,13 +145,6 @@ select {
   display: block;
 }
 
-/* '* + *' is the lobotomized owl */
-/* The '+' is an adjacent sibling combinator. So it looks for elements that have adjacent siblings that come before it. */
-/* .flow > * + * {
-  margin-top: 1rem;
-} */
-
-/* Easier to Read Version of Lobotomized Owl. Does the same as above */
 .flow > *:where(:not(:first-child)) {
   margin-top: var(--flow-space, 1rem);
 }
@@ -166,37 +155,34 @@ select {
   max-width: 80rem;
 }
 
-/* ------------------- */
-/* Accessability       */
-/* ------------------- */
 .sr-only {
-  position: absolute; 
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px; 
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap; /* added line */
-  border: 0;
+position: absolute; 
+width: 1px;
+height: 1px;
+padding: 0;
+margin: -1px; 
+overflow: hidden;
+clip: rect(0, 0, 0, 0);
+white-space: nowrap; /* added line */
+border: 0;
 }
 
-/* This allows people to use Tab and bring up the 'skip to content' link */
 .skip-to-content {
   position: absolute;
   z-index: 9999;
   background: hsl( var(--clr-white) );
-  color: hsl( var(--clr-dark) );
+  color: hsl( var(--clr-dark) ); 
   padding: .5em 1em;
   margin-inline: auto;
   transform: translateY(-100%);
   transition: transform 250ms ease-in;
 }
+
 .skip-to-content:focus {
   transform: translateY(0);
 }
 
-/* COLORS */
+/* colors */
 
 .bg-dark { background-color: hsl( var(--clr-dark) );}
 .bg-accent { background-color: hsl( var(--clr-light) );}
@@ -206,7 +192,7 @@ select {
 .text-accent { color: hsl( var(--clr-light) );}
 .text-white { color: hsl( var(--clr-white) );}
 
-/* TYPOGRAPHY */
+/* typography */
 
 .ff-serif { font-family: var(--ff-serif); } 
 .ff-sans-cond { font-family: var(--ff-sans-cond); } 
@@ -249,12 +235,11 @@ select {
 
 
 /* ------------------- */
-/* Components          */
+/* Compontents         */
 /* ------------------- */
 
-/* Explore Button */
 .large-button {
-  font-size: 2rem; /* we dont use a variable here because we want it to stay the same size all the time */
+  font-size: 2rem;
   position: relative;
   z-index: 1;
   display: inline-grid;
@@ -283,7 +268,8 @@ select {
   transform: scale(1.5);
 }
 
-/* Primary Header */
+/* primary-header */
+
 .logo {
   margin: 1.5rem clamp(1.5rem, 5vw, 3.5rem);
 }
@@ -293,7 +279,6 @@ select {
   align-items: center;
 }
 
-/* Navigation */
 .primary-navigation {
   --gap: clamp(1.5rem, 5vw, 3.5rem);
   --underline-gap: 2rem;
@@ -308,7 +293,6 @@ select {
   text-decoration: none;
 }
 
-/* '>' selects direct descendants of the element */
 .primary-navigation a > span {
   font-weight: 700;
   margin-right: .5em;
@@ -318,59 +302,50 @@ select {
   display: none;
 }
 
-/* this is our frosted glass effect aka 'glassmorphism'. This makes it work on browsers that support it. Currently firefox doesn't support, so we have the fallback background above */
-/* @supports (backdrop-filter: blur(1rem)) {
-  .primary-navigation {
-      background: hsl( var(--clr-white) / 0..05);
-      backdrop-filter: blur(1.5rem);
-  }
-} */
-
 @media (max-width: 35rem) {
   .primary-navigation {
-    --underline-gap: .5rem;
-    position: fixed;
-    z-index: 1000;
-    inset: 0 0 0 30%;
-    list-style: none;
-    padding: min(20rem, 15vh) 2rem;
-    margin: 0;
-    flex-direction: column;
-    transform: translateX(100%); /* This is how we make the nav vanish offscreen under normal browsing */
-    transition: transform 500ms ease-in-out; /* This is how we animate the nav appear on screen */
+      --underline-gap: .5rem;
+      position: fixed;
+      z-index: 1000;
+      inset: 0 0 0 30%;
+      list-style: none;
+      padding: min(20rem, 15vh) 2rem;
+      margin: 0;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 500ms ease-in-out;
   }
-
-  /* if our nav is hidden, we want to show it */
+  
   .primary-navigation[data-visible="true"] {
-    transform: translateX(0);
-  }  
+      transform: translateX(0);
+  }
   
   .primary-navigation.underline-indicators > .active {
-    border: 0;
+     border: 0;
   }
-
+  
   .mobile-nav-toggle {
-    display: block;
-    position: absolute;
-    z-index: 2000;
-    right: 1rem;
-    top: 2rem;
-    background: transparent;
-    background-image: url(./assets/shared/icon-hamburger.svg);
-    background-repeat: no-repeat;
-    background-position: center; /* put the hamburger in the center of the div so it doesn't look weird */
-    width: 1.5rem;
-    aspect-ratio: 1;
-    border: 0;
+      display: block;
+      position: absolute;
+      z-index: 2000;
+      right: 1rem;
+      top: 2rem;
+      background: transparent;
+      background-image: url(./assets/shared/icon-hamburger.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 1.5rem;
+      aspect-ratio: 1;
+      border: 0;
   }
-
+  
   .mobile-nav-toggle[aria-expanded="true"] {
-    background-image: url(./assets/shared/icon-close.svg);
+      background-image: url(./assets/shared/icon-close.svg);
   }
-
+  
   .mobile-nav-toggle:focus-visible {
-    outline: 5px solid white;
-    outline-offset: 5px;
+      outline: 5px solid white;
+      outline-offset: 5px;
   }
   
 }
@@ -382,47 +357,41 @@ select {
 }
 
 @media (min-width: 35em) and (max-width: 44.999em) {
-  
-  /* removes our numbers on tablet size screens */
   .primary-navigation a > span {
       display: none;
   }
 }
 
 @media (min-width: 45em) {
-    
-  .primary-header::after {
-    content: '';
-    display: block;
-    position: relative;
-    height: 1px;
-    width: 100%;
-    margin-right: -2.5rem;
-    background: hsl( var(--clr-white) / .25);
-    order: 1;
-  }
   
+   .primary-header::after {
+       content: '';
+       display: block;
+       position: relative;
+       height: 1px;
+       width: 100%;
+       margin-right: -2.5rem;
+       background: hsl( var(--clr-white) / .25);
+       order: 1;
+   }
+   
   nav {
-    order: 2;
+      order: 2;
   }
   
   .primary-navigation {
-    margin-block: 2rem;
+      margin-block: 2rem;
   }
+  
+ 
 }
 
- 
-/* ------------------------------- */
-/* Underlines Interactive Elements */
-/* ------------------------------- */
 
-/* so this selects every direct descendant of underline-indicators */
 .underline-indicators > * {
   cursor: pointer;
-  padding: var(--underline-gap, 1rem) 0; /* since this is an undefined local custom property, we add '1rem' as a default value */
-  border: 0;  /* we set the border to '0' just in case an element has a previous border that we need to override */
+  padding: var(--underline-gap, 1rem) 0;
+  border: 0;
   border-bottom: .2rem solid hsl( var(--clr-white) / 0 );
-  background-color: transparent;
 }
 
 .underline-indicators > *:hover,
@@ -430,8 +399,6 @@ select {
   border-color: hsl( var(--clr-white) / .5);
 }
 
-/* The '[aria-selected]' attribute is used in accessibility. It lets people know that this is the selected tab. It's used mostly for tab lists */
-/* aria = accessible rich internet applications */
 .underline-indicators > .active,
 .underline-indicators > [aria-selected="true"] {
   color: hsl( var(--clr-white) / 1);
@@ -442,13 +409,9 @@ select {
   --gap: 2rem;
 }
 
-/* ------------------------------- */
-/* Dot Indicators                  */
-/* ------------------------------- */
-
 .dot-indicators > * {
   cursor: pointer;
-  border: 0; /* we set the border to '0' just in case an element has a previous border that we need to override */
+  border: 0;
   border-radius: 50%;
   padding: .5em;
   background-color: hsl( var(--clr-white) / .25);
@@ -463,73 +426,36 @@ select {
   background-color: hsl( var(--clr-white) / 1); 
 }
 
+
 /* ----------------------------- */
 /* Page specific background      */
 /* ----------------------------- */
-
 body {
   background-size: cover;
   background-position: bottom center;
 }
-
-/* Home */
-
+/* home */
 .home {
   background-image: url(./assets/home/background-home-mobile.jpg);
 }
 
 @media (min-width: 35rem) {
   .home {
-    background-position: center center;
-    background-image: url(./assets/home/background-home-tablet.jpg);
+      background-position: center center;
+      background-image: url(./assets/home/background-home-tablet.jpg);
   }
 }
 
 @media (min-width: 45rem) {
   .home {
-    background-image: url(./assets/home/background-home-desktop.jpg);
-  }
-}
-
-/* Destination */
-.destination {
-  background-image: url(./assets/destination/background-destination-mobile.jpg);
-}
-
-@media (min-width: 35rem) {
-  .destination {
-    background-position: center center;
-    background-image: url(./assets/destination/background-destination-tablet.jpg);
-  }
-}
-
-@media (min-width: 45rem) {
-  .destination {
-    background-image: url(./assets/destination/background-destination-desktop.jpg);
-  }
-} 
-
-/* Crew */
-.crew {
-background-image: url(./assets/crew/background-crew-mobile.jpg);
-}
-
-@media (min-width: 35rem) {
-  .crew {
-    background-position: center center;
-    background-image: url(./assets/crew/background-crew-tablet.jpg);
-  }
-}
-
-@media (min-width: 45rem) {
-  .crew {
-    background-image: url(./assets/crew/background-crew-desktop.jpg);
+      background-image: url(./assets/home/background-home-desktop.jpg);
   }
 } 
 
 /* ----------------------------- */
 /* Layout                        */
 /* ----------------------------- */
+
 
 .grid-container {
   text-align: center;
@@ -539,10 +465,9 @@ background-image: url(./assets/crew/background-crew-mobile.jpg);
   padding-bottom: 4rem;
 }
 
-/* reads as 'any paragraph that does not have a class applied to it' */
-.grid-container p:not(.fancy) {
+.grid-container p:not([class]) {
   max-width: 50ch;
-  /* outline: 3px solid limegreen; */
+  outline: 3px solid limegreen;
 }
 
 .numbered-title {
@@ -583,33 +508,7 @@ background-image: url(./assets/crew/background-crew-mobile.jpg);
 .destination-meta p {
   font-size: 1.75rem;
 }
- 
-/* Crew Layout */
 
-.grid-container--crew {
-  --flow-space: 2rem;
-  grid-template-areas: 
-      'title'
-      'image'
-      'tabs'
-      'content';
-}
-
-.grid-container--crew > img {
-  grid-area: image;
-  max-width: 60%;
-  border-bottom: 1px solid hsl( var(--clr-white) / .1);
-}
-
-.grid-container--crew > .dot-indicators {
-  grid-area: tabs;
-}
-
-.grid-container--crew > .crew-details {
-  grid-area: content;
-}
-
-/* --------Medium Screens---------- */
 @media (min-width: 35em) {
   .numbered-title {
       justify-self: start;
@@ -620,93 +519,44 @@ background-image: url(./assets/crew/background-crew-mobile.jpg);
       flex-direction: row;
       justify-content: space-evenly;
   }
-
-  .grid-container--crew {
-    padding-bottom: 0;
-    grid-template-areas: 
-        'title'
-        'content'
-        'tabs'
-        'image';
-  }
 }
 
-/* ---------Large Screens--------- */
-@media (min-width: 45rem) {
+@media (min-width: 45em) {
   .grid-container {
-    text-align: left;
-    column-gap: var(--container-gap, 2rem);
-    grid-template-columns: minmax(2rem, 1fr) repeat(2, minmax(0, 30rem)) minmax(2rem, 1fr); /* We want the content living in repeat. minmax is for the margins and nothing should be there content wise. */
+      text-align: left;
+      column-gap: var(--container-gap, 2rem);
+      grid-template-columns: minmax(1rem, 1fr) repeat(2, minmax(0, 30rem)) minmax(1rem, 1fr);
   }
-
-  /* If we don't put this before the first/last child stuff below, it will cause our title to start wrapping instead of spanning the page. */
-  .grid-container--home {
-    padding-bottom: max(6rem, 20vh);
-    align-items: end;
-  }
-
-  .grid-container--home > *:first-child {
-    grid-column: 2;
-  }
-
-  .grid-container-home > *:last-child {
-    grid-column: 3;
-  }
-
-  .grid-container--destination {
-    justify-items: start;
-    align-content: start; /* keeps the content from stretching out on larger screens */
-    grid-template-areas: 
-      '. title title .' /* title is the grid-area name. So this goes empty area - title across one and two - empty area */
-      '. image tabs .'
-      '. image content .';
-  }
-
-  /* makes our moon image scale correctly */
-  .grid-container--destination > img,
-  .grid-container--crew > img {
-    max-width: 90%;
-  }
-
-  .destination-meta {
-    --gap: min(5vw, 6rem); /* if we just make this 6rem, the KM's part of the distance will wrap to the next line */
-    justify-content: start;
-  }
-
-  .grid-container--crew {
-    grid-template-areas: 
-        '. title title .'
-        '. content image .'
-        '. tabs image .';
-  }
-
-  .grid-container--crew > .dot-indicators {
-    justify-self: start;
-  }
-
-  /* .grid-container--crew > img {
-    align-self: end;
-  } */
-}
-
-
-
-
-
-/* 
-.number-circles {
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  padding: 0 2em;
-  border-radius: 50%;
   
-  text-decoration: none;
-}.number-circles > *:hover,
-.number-circles > *:focus { 
-  background-color: hsl( var(--clr-white) / .5);
-}
+  .grid-container--home {
+      padding-bottom: max(6rem, 20vh);
+      align-items: end;
+  }
+  
+  .grid-container--home > *:first-child {
+      grid-column: 2;
+  }
 
-.number-circles > [aria-selected="true"] {
-  background-color: hsl( var(--clr-white) / 1); 
-}  */
+  .grid-container--home > *:last-child {
+      grid-column: 3;
+  }
+  
+  .grid-container--destination {
+      justify-items: start;
+      align-content: start;
+      grid-template-areas: 
+          '. title title .'
+          '. image tabs .'
+          '. image content .';
+  }
+  
+  .grid-container--destination > img {
+      max-width: 90%;
+  }
+  
+  .destination-meta {
+      --gap: min(6vw, 6rem);
+      justify-content: start;
+  }
+
+}
