@@ -13,13 +13,11 @@ navToggle.addEventListener("click", () => {
     if (visibility === "false") {
         nav.setAttribute("data-visible", true);
         navToggle.setAttribute("aria-expanded", true);
-
     } else {
         nav.setAttribute("data-visible", false);
         navToggle.setAttribute("aria-expanded", false);
     }
-
-    console.log(navToggle.getAttribute("aria-expanded"));
 })
+
 
 // To actually get the menu to open and close, we use CSS

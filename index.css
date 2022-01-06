@@ -103,7 +103,7 @@ body {
 
 /* make images easier to work with */
 img,
-picture {
+picutre {
   max-width: 100%;
   display: block;
 }
@@ -553,7 +553,7 @@ background-image: url(./assets/crew/background-crew-mobile.jpg);
   grid-area: title;
 }
 
-/* destination layout */
+/* Destination Layout */
 
 .grid-container--destination {
   --flow-space: 2rem;
@@ -567,6 +567,7 @@ background-image: url(./assets/crew/background-crew-mobile.jpg);
 .grid-container--destination > picture {
   grid-area: image;
   max-width: 60%;
+  align-self: start;
 }
 
 .grid-container--destination > .tab-list {
@@ -612,10 +613,9 @@ background-image: url(./assets/crew/background-crew-mobile.jpg);
 .grid-container--crew > .crew-details {
   grid-area: content;
 }
-
 .crew-details h2 {
-  opacity: .5;
-  /* color: hsl( var(--clr-white) / .5); this does the same exact thing as opacity */
+  /* opacity: .5; this does the same exact thing as below color */
+  color: hsl( var(--clr-white) / .5);
 }
 
 /* --------Medium Screens---------- */
@@ -629,23 +629,25 @@ background-image: url(./assets/crew/background-crew-mobile.jpg);
       flex-direction: row;
       justify-content: space-evenly;
   }
-
+  
   .grid-container--crew {
-    padding-bottom: 0;
-    grid-template-areas: 
-        'title'
-        'content'
-        'tabs'
-        'image';
+      padding-bottom: 0;
+      grid-template-areas: 
+          'title'
+          'content'
+          'tabs'
+          'image';
   }
+  
 }
 
 /* ---------Large Screens--------- */
-@media (min-width: 45rem) {
+@media (min-width: 45em) {
   .grid-container {
-    text-align: left;
-    column-gap: var(--container-gap, 2rem);
-    grid-template-columns: minmax(2rem, 1fr) repeat(2, minmax(0, 30rem)) minmax(2rem, 1fr); /* We want the content living in repeat. minmax is for the margins and nothing should be there content wise. */
+      text-align: left;
+      column-gap: var(--container-gap, 2rem);
+      grid-template-columns: minmax(1rem, 1fr) repeat(2, minmax(0, 30rem)) minmax(1rem, 1fr);
+    /* We want the content living in repeat. minmax is for the margins and nothing should be there content wise. */
   }
 
   /* If we don't put this before the first/last child stuff below, it will cause our title to start wrapping instead of spanning the page. */
@@ -658,7 +660,7 @@ background-image: url(./assets/crew/background-crew-mobile.jpg);
     grid-column: 2;
   }
 
-  .grid-container-home > *:last-child {
+  .grid-container--home > *:last-child {
     grid-column: 3;
   }
 
@@ -672,8 +674,7 @@ background-image: url(./assets/crew/background-crew-mobile.jpg);
   }
 
   /* makes our moon image scale correctly */
-  .grid-container--destination > picture,
-  .grid-container--crew > picture {
+  .grid-container--destination > picture {
     max-width: 90%;
   }
 
@@ -683,21 +684,21 @@ background-image: url(./assets/crew/background-crew-mobile.jpg);
   }
 
   .grid-container--crew {
+    grid-template-columns: minmax(1rem, 1fr) minmax(0, 37rem) minmax(0, 23rem) minmax(1rem, 1fr);
+    justify-items: start;
     grid-template-areas: 
         '. title title .'
         '. content image .'
         '. tabs image .';
   }
 
-  .grid-container--crew > .dot-indicators {
-    justify-self: start;
+  .grid-container--crew > picture {
+    grid-column: span 2;
+    align-self: end;
+    max-width: 90%;
   }
 
-  /* .grid-container--crew > picture {
-    align-self: end;
-  } */
 }
-
 
 
 
